@@ -114,16 +114,43 @@ void SearchBankMember(const vector<Accounts>& accounts)
         cout << "Bank Member not found!" << endl;
     }
 }
+
 void AddMoney(vector<Accounts>& accounts)
 {
-    bool found = false;
+    if (accounts.empty())
+    {
+        cout << "No bank members registered!" << endl;
+        return;
+    }
+
     string bankNumber;
     double money;
+    int accountIndex = -1;
+
     cout << "Bank Number: ";
     cin >> bankNumber;
-    cout << "Enter the amout of money u want to add: ";
+
+    // Find the bank account
+    for (int i = 0; i < accounts.size(); i++)
+    {
+        if (bankNumber == accounts[i].bankNumber)
+        {
+            accountIndex = i;
+            break;
+        }
+    }
+
+    if (accountIndex == -1)
+    {
+        cout << "Bank Account not found!" << endl;
+        return;
+    }
+
+    // Enter the amount of money
+    cout << "Enter the amount of money you want to add: ";
     cin >> money;
-    while (cin.fail()||money<=0)
+
+    while (cin.fail() || money <= 0)
     {
         cin.clear();
         cin.ignore((numeric_limits<streamsize>::max)(), '\n');
@@ -131,23 +158,12 @@ void AddMoney(vector<Accounts>& accounts)
         cout << "Invalid amount! Enter a positive number: ";
         cin >> money;
     }
-    for (int i = 0;i < accounts.size();i++)
-    {
-        if (bankNumber == accounts[i].bankNumber)
-        {
-            accounts[i].amount += money;
-            found = true;
-            cout << "Ammout added succesfully!" << endl;
-            break;
-        }
 
-    }
-    if (!found)
-    {
-        cout << "Bank Account not found!" << endl;
-    }
+    accounts[accountIndex].amount += money;
 
+    cout << "Money added successfully!" << endl;
 }
+
 void AddTax(vector<Accounts>& accounts)
 {
     if (accounts.empty())
