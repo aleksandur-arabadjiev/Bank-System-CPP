@@ -31,10 +31,12 @@ void ShowAllBankMembers(const vector<Accounts>& accounts)
         }
     }
 }
-void AddMember(vector<Accounts>& accounts) 
+
+void AddMember(vector<Accounts>& accounts)
 {
     string name, surname, bankNumber;
     double amount;
+
     cout << "Name: ";
     cin >> name;
 
@@ -43,6 +45,16 @@ void AddMember(vector<Accounts>& accounts)
 
     cout << "Bank Number: ";
     cin >> bankNumber;
+
+    // Check if bank number already exists
+    for (int i = 0; i < accounts.size(); i++)
+    {
+        if (bankNumber == accounts[i].bankNumber)
+        {
+            cout << "This bank number already exists!" << endl;
+            return;
+        }
+    }
 
     cout << "Money Amount: ";
     cin >> amount;
@@ -56,29 +68,19 @@ void AddMember(vector<Accounts>& accounts)
         cout << "Enter valid amount: ";
         cin >> amount;
     }
+
     Accounts account;
 
     account.name = name;
     account.surname = surname;
     account.bankNumber = bankNumber;
     account.amount = amount;
-    bool exists = false;
-    for (int i = 0;i < accounts.size();i++)
-    {
-        if (name == accounts[i].name && surname == accounts[i].surname)
-        {
-            exists = true;
-            cout << "You have already added this Bank Member" << endl;
-            return;
-        }
-    }
-    if (exists == false)
-    {
-        accounts.push_back(account);
-    }
+
+    accounts.push_back(account);
 
     cout << "Bank Member added successfully!" << endl;
 }
+
 void SearchBankMember(const vector<Accounts>& accounts)
 {
     if (accounts.empty())
